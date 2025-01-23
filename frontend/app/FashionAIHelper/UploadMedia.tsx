@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Upload } from "lucide-react";
 import { ClipLoader } from "react-spinners";
+import {Card, CardHeader, CardTitle, CardDescription, CardContent,} from '@/components/ui/card';
 
 export default function UploadMedia() {
     const [imageFiles, setImageFiles] = useState<File[]>([]);
@@ -286,17 +287,34 @@ export default function UploadMedia() {
             </div>
            )}
              {analysisResult && (
-                <div className="mt-6 bg-gray-100 p-4 rounded-lg shadow-md">
-                 <h3 className="text-xl font-semibold">Analysis Result:</h3>
-                  {analysisResult.map((item:any, index: number) =>
-                    <div key={index} className="text-left">
-                        <pre className="bg-gray-800 text-white p-4 rounded-md">
-                            {`Description: ${item.description}\nCategory: ${item.category}\nColors: ${item.colors?.join(', ')}\nStyle: ${item.style?.join(', ')}\nGender Type: ${item.gender_type}\nSuitable Weather: ${item.suitable_weather}\nMaterial: ${item.material}\nOccasion: ${item.occasion}`}
-                        </pre>
-                    </div>
-                   )}
-               </div>
-            )}
+        <div className="overflow-x-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {analysisResult.map((item: any, index: number) => (
+              <Card key={index} className="mt-5 bg-gradient-to-r from-[#0894FF] to-[#C959DD] p-1 rounded-xl shadow-lg hover:shadow-xl transform transition-all hover:scale-95">
+                <CardHeader>
+                  <CardTitle className="text-2xl font-semibold text-white text-center">
+                    Analysis Result {index + 1}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <p className="text-left mb-4 text-white">
+                      Description: {item.description}
+                    </p>
+                    <p className="text-left mb-4 text-white">Category: {item.category}</p>
+                    <p className="text-left mb-4 text-white">Colors: {item.colors?.join(', ') || 'N/A'}</p>
+                    <p className="text-left mb-4 text-white">Style: {item.style?.join(', ') || 'N/A'}</p>
+                    <p className="text-left mb-4 text-white">Gender Type: {item.gender_type || 'N/A'}</p>
+                    <p className="text-left mb-4 text-white">Suitable Weather: {item.suitable_weather || 'N/A'}</p>
+                    <p className="text-left mb-4 text-white">Material: {item.material || 'N/A'}</p>
+                    <p className="text-left mb-4 text-white">Occasion: {item.occasion || 'N/A'}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      )}
           {analysisResult && (
           <div className="flex justify-center mt-8">
                <button
@@ -309,47 +327,61 @@ export default function UploadMedia() {
            </div>
           )}
          {outfitCombinations && (
-                <div className="mt-6 bg-gray-900 p-4 rounded-lg shadow-md">
-                    <h3 className="text-xl font-semibold text-white">Outfit Suggestions:</h3>
-                     {outfitCombinations.outfits.split("**").map((item: string, index: number) => {
-                       if(item.startsWith("Outfit")){
-                          return (
-                               <h3 key={index} className="mt-4 font-semibold text-lg text-white"> {item.replace("*", "").trim()} </h3>
-                          )
-                        }else if(item.startsWith("Description")){
-                            return (
-                                <p key={index} className='text-gray-400'> {item.replace("*", "").trim()} </p>
-                             )
-                          }
-                        else if(item.startsWith("Bottoms:") || item.startsWith("Top:")){
-                            const [label, value] = item.split(":")
-                             return (
-                                <div key={index} className="ml-0 flex">
-                                      <span className="font-semibold text-gray-300">{label.replace("*","").trim()}: </span>
-                                      <span className="text-white">{value.replace("*", "").trim()}</span>
-                                </div>
-                             )
-                         } else{
-                            return (
-                             <p key={index} className='text-white'> {item}</p>
-                            )
-                         }
-                       }
-                    )}
-                    <h3 className="text-xl font-semibold mt-4 text-white">Recommended Items:</h3>
-                   {outfitCombinations.recommendations ? (
-                    outfitCombinations.recommendations.map((item: any, index: number) => (
-                            <div key={index} >
-                                <a  href={item.link} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-300">
-                                    {item.description}
-                                </a>
-                            </div>
-                        ))
-                      ) : (
-                        <p className="text-white"> Could not get recommendations</p>
-                      )}
-                </div>
-            )}
+  <div className="mt-6 bg-gradient-to-b from-purple-500 to-indigo-500 p-4 rounded-xl shadow-md">
+    <h3 className="text-xl font-semibold text-white">Outfit Suggestions:</h3>
+    <div className="space-y-4">
+      {outfitCombinations.outfits.split("**").map((item: string, index: number) => {
+        if (item.startsWith("Outfit")) {
+          return (
+            <h3 key={index} className="mt-4 font-semibold text-lg text-white">
+              {item.replace("*", "").trim()}
+            </h3>
+          );
+        } else if (item.startsWith("Description")) {
+          return (
+            <p key={index} className="text-gray-300">
+              {item.replace("*", "").trim()}
+            </p>
+          );
+        } else if (item.startsWith("Bottoms:") || item.startsWith("Top:")) {
+          const [label, value] = item.split(":");
+          return (
+            <div key={index} className="flex items-center justify-between">
+              <span className="font-semibold text-gray-200 mr-2">{label.replace("*", "").trim()}:</span>
+              <span className="text-white">{value.replace("*", "").trim()}</span>
+            </div>
+          );
+        } else {
+          return (
+            <p key={index} className="text-white">
+              {item}
+            </p>
+          );
+        }
+      })}
+
+      <h3 className="mt-4 font-semibold text-lg text-white">Recommended Items:</h3>
+      {outfitCombinations.recommendations ? (
+        <ul className="list-disc list-inside text-white">
+          {outfitCombinations.recommendations.map((item: any, index: number) => (
+            <li key={index}>
+              <a
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:text-blue-300 underline"
+              >
+                {item.description}
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-white">Could not get recommendations</p>
+      )}
+    </div>
+  </div>
+)}
         </div>
     );
 }
