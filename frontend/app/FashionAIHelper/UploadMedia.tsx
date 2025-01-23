@@ -3,52 +3,52 @@ import { useState } from "react";
 import { Upload } from "lucide-react";
 
 export default function UploadMedia() {
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [videoFile, setVideoFile] = useState<File | null>(null);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [videoFiles, setVideoFiles] = useState<File[]>([]);
   const [imagePrompt, setImagePrompt] = useState("");
   const [videoPrompt, setVideoPrompt] = useState("");
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    console.log("Selected image file:", file);
-    setImageFile(file || null); // Ensure null is set if no file is selected
+    const files = event.target.files;
+    if (files) {
+      setImageFiles(Array.from(files)); // Store multiple files
+    }
   };
 
   const handleVideoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    console.log("Selected video file:", file);
-    setVideoFile(file || null);
+    const files = event.target.files;
+    if (files) {
+      setVideoFiles(Array.from(files)); // Store multiple files
+    }
   };
 
   // Function to handle the submit action
   const handleSubmit = async () => {
-    if (!imageFile && !videoFile) {
+    if (imageFiles.length === 0 && videoFiles.length === 0) {
       alert("Please upload an image or video.");
       return;
     }
 
     const formData = new FormData();
-    
-    if (imageFile) {
-      formData.append("image", imageFile);
-      formData.append("imagePrompt", imagePrompt);
-    }
-    if (videoFile) {
-      formData.append("video", videoFile);
-      formData.append("videoPrompt", videoPrompt);
-    }
+
+    imageFiles.forEach((file) => {
+      formData.append("images", file); // Append each image file
+    });
+    videoFiles.forEach((file) => {
+      formData.append("videos", file); // Append each video file
+    });
 
     try {
-      const response = await fetch("/api/upload", { // Adjust the URL to your backend endpoint
-        method: "POST",
-        body: formData,
+      const response = await fetch("/api/upload", { 
+        method: "POST", 
+        body: formData 
       });
 
       if (response.ok) {
         alert("Media and prompt submitted successfully!");
         // Optionally reset the form
-        setImageFile(null);
-        setVideoFile(null);
+        setImageFiles([]);
+        setVideoFiles([]);
         setImagePrompt("");
         setVideoPrompt("");
       } else {
@@ -80,11 +80,14 @@ export default function UploadMedia() {
               onChange={handleImageUpload}
               className="hidden"
               id="imageUpload"
+              multiple // Allow multiple files to be selected
             />
             <label htmlFor="imageUpload" className="cursor-pointer flex flex-col items-center justify-center">
               <Upload className="w-12 h-12 text-pink-500 mb-2" />
               <span className="text-lg font-semibold text-pink-500">
-                {imageFile ? imageFile.name : "Choose an image"}
+                {imageFiles.length > 0
+                  ? imageFiles.map((file) => file.name).join(", ") // Display all selected file names
+                  : "Choose images"}
               </span>
             </label>
           </div>
@@ -108,11 +111,14 @@ export default function UploadMedia() {
               onChange={handleVideoUpload}
               className="hidden"
               id="videoUpload"
+              multiple // Allow multiple files to be selected
             />
             <label htmlFor="videoUpload" className="cursor-pointer flex flex-col items-center justify-center">
               <Upload className="w-12 h-12 text-blue-500 mb-2" />
               <span className="text-lg font-semibold text-blue-500">
-                {videoFile ? videoFile.name : "Choose a video"}
+                {videoFiles.length > 0
+                  ? videoFiles.map((file) => file.name).join(", ") // Display all selected file names
+                  : "Choose videos"}
               </span>
             </label>
           </div>
