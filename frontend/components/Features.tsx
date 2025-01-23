@@ -39,10 +39,10 @@ const Features = () => {
 
       {/* Project Description */}
       <div className="text-center relative z-20 mt-8 px-6">
-        <p className="text-xl text-white font-medium mb-4">
+        <p className="text-xl bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 font-medium mb-4">
           Our project leverages cutting-edge technology to revolutionize the way people interact with AI-driven solutions. With a focus on innovation, we aim to provide users with intelligent tools that enhance productivity and creativity.
         </p>
-        <p className="text-lg text-white">
+        <p className="text-lg bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500">
           From seamless integrations to an intuitive user experience, our project is designed to cater to diverse needs while ensuring ease of use. Join us in shaping the future!
         </p>
       </div>

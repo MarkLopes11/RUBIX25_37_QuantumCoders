@@ -2,6 +2,7 @@ import React from "react";
 import { LucideIcon } from "lucide-react";
 import { Home, Search, User, Shirt } from "lucide-react";
 import Link from "next/link";
+import { UserButton } from '@clerk/nextjs'
 
 const Header = () => {
   return (
@@ -19,10 +20,12 @@ const Header = () => {
           <Link href="#services" className="text-n-3 hover:text-n-1 transition">
             <Shirt size={24} />
           </Link>
-          <Link href="/profile" className="text-n-3 hover:text-n-1 transition">
+          <Link href="#" className="text-n-3 hover:text-n-1 transition">
             <User size={24} />
           </Link>
+          <UserButton/>
         </nav>
+        
       </div>
     </header>
   );
