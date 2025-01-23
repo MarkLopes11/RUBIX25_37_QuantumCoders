@@ -28,25 +28,37 @@ export default function UploadMedia() {
       alert("Please upload an image or video.");
       return;
     }
-
+  
     const formData = new FormData();
-
+  
+    // Append image files
     imageFiles.forEach((file) => {
-      formData.append("images", file); // Append each image file
+      formData.append("images", file);
     });
+  
+    // Append video files
     videoFiles.forEach((file) => {
-      formData.append("videos", file); // Append each video file
+      formData.append("videos", file);
     });
-
+  
+    // Append image prompt
+    if (imagePrompt) {
+      formData.append("imagePrompt", imagePrompt);
+    }
+  
+    // Append video prompt
+    if (videoPrompt) {
+      formData.append("videoPrompt", videoPrompt);
+    }
+  
     try {
-      const response = await fetch("/api/upload", { 
+      const response = await fetch("http://127.0.0.1:5000/api/upload", { 
         method: "POST", 
         body: formData 
       });
-
+  
       if (response.ok) {
         alert("Media and prompt submitted successfully!");
-        // Optionally reset the form
         setImageFiles([]);
         setVideoFiles([]);
         setImagePrompt("");
@@ -91,6 +103,7 @@ export default function UploadMedia() {
               </span>
             </label>
           </div>
+          <form action={'/api/upload'} method="post" encType="multipart/form-data">
           <textarea
             value={imagePrompt}
             onChange={(e) => setImagePrompt(e.target.value)}
@@ -98,6 +111,7 @@ export default function UploadMedia() {
             className="w-full p-2 rounded-md bg-gray-800 text-white border border-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-500"
             rows={3}
           />
+          </form>
         </div>
         {/* Video Upload Section */}
         <div className="flex-1 bg-gray-900 rounded-lg shadow-xl p-6">
