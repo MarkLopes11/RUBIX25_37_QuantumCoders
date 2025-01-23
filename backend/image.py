@@ -4,6 +4,8 @@ import os
 import json
 from PIL import Image
 from dotenv import find_dotenv, load_dotenv
+import re
+from io import StringIO
 
 load_dotenv(find_dotenv(), override=True)
 gemini_api_key = os.getenv("GOOGLE_API_KEY")
@@ -15,8 +17,6 @@ if not gemini_api_key:
 genai.configure(api_key=gemini_api_key)
 model = genai.GenerativeModel('gemini-1.5-flash')
 
-
-import re
 
 def analyze_image(image):
     try:
@@ -102,6 +102,27 @@ def main():
                 st.subheader("Clothing Catalog:")
                 st.json(catalog)
                 st.success("Image Analysis Complete!")
+
+                 # Convert catalog to human-readable text
+                catalog_text = ""
+                for item in catalog:
+                    catalog_text += f"Description: {item.get('description', 'N/A')}\n"
+                    catalog_text += f"Category: {item.get('category', 'N/A')}\n"
+                    catalog_text += f"Colors: {', '.join(item.get('colors', ['N/A']))}\n"
+                    catalog_text += f"Style: {', '.join(item.get('style', ['N/A']))}\n"
+                    catalog_text += f"Gender Type: {item.get('gender_type', 'N/A')}\n"
+                    catalog_text += f"Suitable Weather: {item.get('suitable_weather', 'N/A')}\n"
+                    catalog_text += f"Material: {item.get('material', 'N/A')}\n"
+                    catalog_text += f"Occasion: {item.get('occasion', 'N/A')}\n"
+                    catalog_text += "-" * 30 + "\n"
+
+                # Download catalog button
+                st.download_button(
+                    label="Download Clothing Catalog",
+                    data=catalog_text.encode('utf-8'),
+                    file_name="clothing_catalog.txt",
+                    mime="text/plain",
+                )
             else:
                 st.error("Could not get analysis, please try again.")
 
@@ -120,6 +141,13 @@ def main():
                  if outfit_combinations:
                     st.subheader("Outfit Suggestions:")
                     st.markdown(outfit_combinations)
+                   # Download combinations button
+                    st.download_button(
+                        label="Download Outfit Combinations",
+                        data=outfit_combinations.encode('utf-8'),
+                        file_name="outfit_combinations.txt",
+                        mime="text/plain",
+                    )
                  else:
                      st.error("Could not generate outfit combinations")
 
