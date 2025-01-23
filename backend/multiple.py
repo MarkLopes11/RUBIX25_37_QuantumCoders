@@ -131,9 +131,6 @@ def main():
     # Outfit Combinations page
     elif page == "Outfit Combinations":
             st.header("Outfit Combinations")
-            # This is a very basic example.
-            # In a real application you should be using a persisted catalog from the dashboard
-            # For this example we will use the same response from the dashboard page
             if 'catalog' in st.session_state:
                 catalog = st.session_state.catalog
 
