@@ -37,9 +37,6 @@ def analyze_image(image):
         response = model.generate_content([prompt, image_data])
         raw_response = response.text.strip()
 
-        # Log the raw response for debugging
-        st.write("Raw Response from Gemini:", repr(raw_response))
-
         # Extract JSON using regex (to handle improperly formatted responses)
         json_match = re.search(r'\[\s*\{.*\}\s*\]', raw_response, re.DOTALL)
         if json_match:
@@ -99,30 +96,20 @@ def main():
                 catalog = analyze_image(uploaded_image)
             if catalog:
                 st.session_state.catalog = catalog
+                # Convert catalog to human-readable text
                 st.subheader("Clothing Catalog:")
-                st.json(catalog)
-                st.success("Image Analysis Complete!")
-
-                 # Convert catalog to human-readable text
-                catalog_text = ""
                 for item in catalog:
-                    catalog_text += f"Description: {item.get('description', 'N/A')}\n"
-                    catalog_text += f"Category: {item.get('category', 'N/A')}\n"
-                    catalog_text += f"Colors: {', '.join(item.get('colors', ['N/A']))}\n"
-                    catalog_text += f"Style: {', '.join(item.get('style', ['N/A']))}\n"
-                    catalog_text += f"Gender Type: {item.get('gender_type', 'N/A')}\n"
-                    catalog_text += f"Suitable Weather: {item.get('suitable_weather', 'N/A')}\n"
-                    catalog_text += f"Material: {item.get('material', 'N/A')}\n"
-                    catalog_text += f"Occasion: {item.get('occasion', 'N/A')}\n"
-                    catalog_text += "-" * 30 + "\n"
+                  with st.expander(f"Item: {item.get('description', 'N/A')}", expanded=True):
+                    st.markdown(f"**Category:** {item.get('category', 'N/A')}")
+                    st.markdown(f"**Colors:** {', '.join(item.get('colors', ['N/A']))}")
+                    st.markdown(f"**Style:** {', '.join(item.get('style', ['N/A']))}")
+                    st.markdown(f"**Gender Type:** {item.get('gender_type', 'N/A')}")
+                    st.markdown(f"**Suitable Weather:** {item.get('suitable_weather', 'N/A')}")
+                    st.markdown(f"**Material:** {item.get('material', 'N/A')}")
+                    st.markdown(f"**Occasion:** {item.get('occasion', 'N/A')}")
+                    st.markdown("---")
 
-                # Download catalog button
-                st.download_button(
-                    label="Download Clothing Catalog",
-                    data=catalog_text.encode('utf-8'),
-                    file_name="clothing_catalog.txt",
-                    mime="text/plain",
-                )
+                st.success("Image Analysis Complete!")
             else:
                 st.error("Could not get analysis, please try again.")
 
@@ -133,24 +120,41 @@ def main():
             # In a real application you should be using a persisted catalog from the dashboard
             # For this example we will use the same response from the dashboard page
             if 'catalog' in st.session_state:
-                 catalog = st.session_state.catalog
-                 st.write("Catalog: ", catalog) # Log the session catalog
-                 # Generate outfit combinations
-                 with st.spinner("Generating Outfit Combinations..."):
-                     outfit_combinations = generate_outfit_combinations(catalog)
-                 if outfit_combinations:
+                catalog = st.session_state.catalog
+
+                # Generate outfit combinations
+                with st.spinner("Generating Outfit Combinations..."):
+                    outfit_combinations = generate_outfit_combinations(catalog)
+
+                if outfit_combinations:
                     st.subheader("Outfit Suggestions:")
                     st.markdown(outfit_combinations)
-                   # Download combinations button
+
+                   # Convert catalog to human-readable text
+                    catalog_text = ""
+                    for item in catalog:
+                        catalog_text += f"Description: {item.get('description', 'N/A')}\n"
+                        catalog_text += f"Category: {item.get('category', 'N/A')}\n"
+                        catalog_text += f"Colors: {', '.join(item.get('colors', ['N/A']))}\n"
+                        catalog_text += f"Style: {', '.join(item.get('style', ['N/A']))}\n"
+                        catalog_text += f"Gender Type: {item.get('gender_type', 'N/A')}\n"
+                        catalog_text += f"Suitable Weather: {item.get('suitable_weather', 'N/A')}\n"
+                        catalog_text += f"Material: {item.get('material', 'N/A')}\n"
+                        catalog_text += f"Occasion: {item.get('occasion', 'N/A')}\n"
+                        catalog_text += "-" * 30 + "\n"
+
+                    # Combine catalog and outfits
+                    combined_text = f"Clothing Catalog:\n{catalog_text}\n\nOutfit Combinations:\n{outfit_combinations}"
+                    # Download combined button
                     st.download_button(
-                        label="Download Outfit Combinations",
-                        data=outfit_combinations.encode('utf-8'),
-                        file_name="outfit_combinations.txt",
+                        label="Download Catalog and Outfits",
+                        data=combined_text.encode('utf-8'),
+                        file_name="wardrobe_report.txt",
                         mime="text/plain",
                     )
-                 else:
-                     st.error("Could not generate outfit combinations")
 
+                else:
+                    st.error("Could not generate outfit combinations")
             else:
                st.warning("Please upload an image in the dashboard page to generate outfit combinations.")
 
