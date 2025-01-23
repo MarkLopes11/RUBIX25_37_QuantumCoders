@@ -3,6 +3,7 @@ import os
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import google.generativeai as genai
+from image_create import create_image_from_user_style
 from PIL import Image
 import re
 import json
@@ -22,6 +23,7 @@ model_8b = genai.GenerativeModel('gemini-1.5-flash-8b')
 app = Flask(__name__)
 CORS(app)
 
+USER_PROMT = ""
 UPLOAD_FOLDER = './uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -141,8 +143,8 @@ def upload_media():
                  video.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                  uploaded_files.append(filename)
 
-        # Print or log for debugging
         print("Image Prompt:", image_prompt)
+        USER_PROMT=image_prompt
         print("Video Prompt:", video_prompt)
         print("Uploaded files:", uploaded_files)
 
@@ -195,6 +197,11 @@ def outfits():
     except Exception as e:
        print(f"Error: {e}")
        return jsonify({"error": "Failed to generate outfit combinations."}), 500
+
+@app.route('/api/ai_image', methods=['POST'])
+def ai_image():
+    image_generated_url = create_image_from_user_style(USER_PROMT)
+    return image_generated_url
 
 if __name__ == '__main__':
     app.run(debug=True)
