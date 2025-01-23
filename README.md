@@ -1,7 +1,5 @@
 # Fashion AI Helper
 
-![Logo](https://img.icons8.com/ios/452/fashion.png)
-
 ## Description
 
 **Fashion AI Helper** is an innovative web application designed to help users explore and enhance their personal style. Using artificial intelligence, the app offers a variety of features, including:
