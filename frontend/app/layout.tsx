@@ -1,6 +1,8 @@
 import React from "react";
 import Header from "@/components/Header";  // Make sure Header is in the correct file
 import Footer from "@/components/Footer";  // Correctly import Footer
+import { ClerkProvider, GoogleOneTap } from "@clerk/nextjs";
+
 import "@/styles/globals.css";  // Import the global styles
 export const metadata = {
   title: "AI Fashion Wardrobe Assistant",
@@ -9,13 +11,15 @@ export const metadata = {
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
+    <ClerkProvider> 
     <html lang="en">
       <body className="bg-n-8 text-n-1">
         <Header />
-        <main>{children}</main>
+        {children}
         <Footer />
       </body>
     </html>
+    </ClerkProvider> 
   );
 };
 

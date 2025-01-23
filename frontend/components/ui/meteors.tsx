@@ -1,14 +1,21 @@
+"use client";
 import { cn } from "@/lib/utils";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export const Meteors = ({
-  number,
+  number = 40,
   className,
 }: {
   number?: number;
   className?: string;
 }) => {
-  const meteors = Array.from({ length: number || 40 }); // Increased meteor count for density
+  const [meteors, setMeteors] = useState<number[]>([]);
+
+  useEffect(() => {
+    // Generate meteors dynamically on the client side
+    setMeteors(Array.from({ length: number }, (_, idx) => idx));
+  }, [number]);
+
   return (
     <>
       {meteors.map((_, idx) => (
@@ -21,7 +28,7 @@ export const Meteors = ({
           )}
           style={{
             left: Math.random() * 100 + "vw", // Random horizontal positioning
-            top: Math.random() * -200 + "px",  // Starts above the screen
+            top: Math.random() * -200 + "px", // Starts above the screen
             animationDelay: Math.random() * 0.6 + "s", // Randomized delay
             animationDuration: Math.random() * 8 + 4 + "s", // Varying speeds
           }}

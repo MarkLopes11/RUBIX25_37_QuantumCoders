@@ -4,8 +4,6 @@ import HeroSection from "@/components/HeroSection";
 import Features from "@/components/Features";
 import Services from "@/components/Services";
 import Pricing from "@/components/Pricing";
-import Roadmap from "@/components/Roadmap";
-import Footer from "@/components/Footer";
 import GlowingLineBreaker from "@/components/ui/GlowingLineBreaker"; // Import the GlowingLineBreaker component
 //import AnimatedBackground from "@/app/FashionAIHelper/AnimatedBackground";
 //import FashionAIHelper from "@/app/FashionAIHelper/FashionAIHelper";
