@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"; // Import the Card component
 import { Meteors } from "@/components/ui/meteors"; // Import the Meteors component
+import Link from "next/link"
 
 const Pricing = () => {
   return (
@@ -21,9 +22,11 @@ const Pricing = () => {
               <li>Access to basic wardrobe management</li>
               <li>Limited styling recommendations</li>
             </ul>
+            <Link href="/FashionAIHelper">
             <button className="bg-primary text-white py-2 px-6 rounded-full hover:bg-primary-dark transition">
               Get Started
             </button>
+            </Link>
           </CardContent>
         </Card>
 
@@ -33,7 +36,7 @@ const Pricing = () => {
             <CardTitle className="text-white text-center">Pro Plan</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-lg mb-4 text-white">$9.99/month</p>
+            <p className="text-lg mb-4 text-white">199 rs/month</p>
             <ul className="text-left mb-4 text-white">
               <li>Advanced AI styling</li>
               <li>Cloud storage integration</li>
