@@ -5,12 +5,10 @@ import { ClipLoader } from "react-spinners";
 import { CopilotKit } from "@copilotkit/react-core";
 import { CopilotPopup } from "@copilotkit/react-ui";
 
-// Global CSS for dark theme (add to your global CSS file)
-const copilotApiKey = process.env.ck_pub_94b65ab4dd382d289a397603032943b;
 
 export default function App() {
     return (
-        <CopilotKit publicApiKey={copilotApiKey}>
+        <CopilotKit publicApiKey="ck_pub_94b65ab4dd382d289a397603032943b5">
             <UploadMediaWithPopup />
         </CopilotKit>
     );
