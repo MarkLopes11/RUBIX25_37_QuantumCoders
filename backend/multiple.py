@@ -86,32 +86,47 @@ def main():
     # Dashboard page
     if page == "Dashboard":
         st.header("Wardrobe Dashboard")
-        uploaded_image = st.file_uploader("Upload a wardrobe picture", type=["png", "jpg", "jpeg"])
-        if uploaded_image:
-            # Display the image
-            st.image(uploaded_image, caption="Uploaded Wardrobe Image", use_column_width=True)
+        
+        # Option to upload or take a picture
+        image_source = st.radio("Choose Image Source", ["Upload", "Take a Picture"])
 
-            # Analyze image
-            with st.spinner("Analyzing Image..."):
-                catalog = analyze_image(uploaded_image)
-            if catalog:
-                st.session_state.catalog = catalog
-                # Convert catalog to human-readable text
-                st.subheader("Clothing Catalog:")
-                for item in catalog:
-                  with st.expander(f"Item: {item.get('description', 'N/A')}", expanded=True):
-                    st.markdown(f"**Category:** {item.get('category', 'N/A')}")
-                    st.markdown(f"**Colors:** {', '.join(item.get('colors', ['N/A']))}")
-                    st.markdown(f"**Style:** {', '.join(item.get('style', ['N/A']))}")
-                    st.markdown(f"**Gender Type:** {item.get('gender_type', 'N/A')}")
-                    st.markdown(f"**Suitable Weather:** {item.get('suitable_weather', 'N/A')}")
-                    st.markdown(f"**Material:** {item.get('material', 'N/A')}")
-                    st.markdown(f"**Occasion:** {item.get('occasion', 'N/A')}")
-                    st.markdown("---")
+        if image_source == "Upload":
+            uploaded_images = st.file_uploader("Upload wardrobe pictures", type=["png", "jpg", "jpeg"], accept_multiple_files=True)
+        elif image_source == "Take a Picture":
+          uploaded_image = st.camera_input("Take a picture of your wardrobe")
+          uploaded_images = [uploaded_image] if uploaded_image else None
+        else:
+           uploaded_images = None
+        
+        if uploaded_images:
+            all_catalogs = []
+            # Display the images and their analysis results
+            for uploaded_image in uploaded_images:
+                if uploaded_image:
+                   st.image(uploaded_image, caption="Uploaded Wardrobe Image", use_column_width=True)
+                   with st.spinner(f"Analyzing Image..."):
+                         catalog = analyze_image(uploaded_image)
+                         if catalog:
+                             all_catalogs.extend(catalog)
+                         else:
+                             st.error("Could not get analysis, please try again for one of the images.")
+            if all_catalogs:
+                 st.session_state.catalog = all_catalogs
+                 st.subheader("Clothing Catalog:")
+                 for item in all_catalogs:
+                    with st.expander(f"Item: {item.get('description', 'N/A')}", expanded=True):
+                        st.markdown(f"**Category:** {item.get('category', 'N/A')}")
+                        st.markdown(f"**Colors:** {', '.join(item.get('colors', ['N/A']))}")
+                        st.markdown(f"**Style:** {', '.join(item.get('style', ['N/A']))}")
+                        st.markdown(f"**Gender Type:** {item.get('gender_type', 'N/A')}")
+                        st.markdown(f"**Suitable Weather:** {item.get('suitable_weather', 'N/A')}")
+                        st.markdown(f"**Material:** {item.get('material', 'N/A')}")
+                        st.markdown(f"**Occasion:** {item.get('occasion', 'N/A')}")
+                        st.markdown("---")
+                 st.success("Image Analysis Complete!")
 
-                st.success("Image Analysis Complete!")
             else:
-                st.error("Could not get analysis, please try again.")
+                st.error("Could not get analysis, please try again for all images.")
 
     # Outfit Combinations page
     elif page == "Outfit Combinations":
@@ -152,6 +167,17 @@ def main():
                         file_name="wardrobe_report.txt",
                         mime="text/plain",
                     )
+                    st.markdown(
+                        f"""
+                        <a href="https://ai-fashion-assistant.streamlit.app/" target="_blank">
+                            <button style="background-color:#4CAF50; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer; text-decoration: none;">
+                                Go to Next Step
+                            </button>
+                         </a>
+                        """,
+                            unsafe_allow_html=True
+                        )
+
 
                 else:
                     st.error("Could not generate outfit combinations")
