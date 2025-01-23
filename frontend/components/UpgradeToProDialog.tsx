@@ -17,7 +17,7 @@ const UpgradeToProDialog = ({ onUpgrade }: { onUpgrade: () => void }) => {
     <>
       {/* Button to trigger the dialog */}
       <button
-        className="text-n-3 hover:text-n-1 transition flex items-center gap-2"
+        className="text-primary hover:text-black transition flex items-center gap-2"
         onClick={() => setShowDialog(true)}
       >
         {isProUser ? (
@@ -72,7 +72,7 @@ const UpgradeToProDialog = ({ onUpgrade }: { onUpgrade: () => void }) => {
                   onClick={handleUpgrade}
                 >
                   <Crown className="w-5 h-5" />
-                  <span className="text-lg font-semibold hover:text-blue-500">
+                  <span className="text-lg font-semibold hover:text-white">
                     Upgrade
                   </span>
                 </button>

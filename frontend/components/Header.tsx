@@ -13,7 +13,7 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-n-7 px-6 py-4 shadow-md">
+    <header className="sticky top-0 z-50 bg-white px-6 py-4 shadow-md">
       <div className="flex justify-between items-center">
         {/* Logo on the left */}
         <Link href="/" className="text-2xl font-bold text-primary">
@@ -21,13 +21,13 @@ const Header = () => {
         </Link>
         {/* Navigation Icons on the right */}
         <nav className="flex gap-6 ml-auto items-center">
-          <Link href="/FashionAIHelper" className="text-n-3 hover:text-n-1 transition">
+          <Link href="/FashionAIHelper" className="text-primary hover:text-black transition">
             <Home size={24} />
           </Link>
-          <Link href="#services" className="text-n-3 hover:text-n-1 transition">
+          <Link href="#services" className="text-primary hover:text-black transition">
             <Shirt size={24} />
           </Link>
-          <Link href="#" className="text-n-3 hover:text-n-1 transition">
+          <Link href="#" className="text-primary hover:text-black transition">
             <User size={24} />
           </Link>
           {/* Show the upgrade dialog */}
