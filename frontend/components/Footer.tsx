@@ -21,8 +21,8 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-n-8 py-8 text-center">
-      <p className="text-sm text-n-4">
+    <footer className="bg-white py-8 text-center">
+      <p className="text-sm text-black">
         © {new Date().getFullYear()} AI Fashion Wardrobe Assistant. All rights reserved.
       </p>
       <div className="flex justify-center gap-6 mt-4">
@@ -31,7 +31,7 @@ const Footer = () => {
             key={social.id}
             href={social.url}
             target="_blank"
-            className="text-primary hover:text-primary-dark transition"
+            className="text-primary hover:text-black transition"
             rel="noopener noreferrer"
           >
             {social.icon}
