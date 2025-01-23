@@ -2,6 +2,7 @@ import React from "react";
 import Header from "@/components/Header";  // Make sure Header is in the correct file
 import Footer from "@/components/Footer";  // Correctly import Footer
 import { ClerkProvider, GoogleOneTap } from "@clerk/nextjs";
+import "@copilotkit/react-ui/styles.css";
 
 import "@/styles/globals.css";  // Import the global styles
 export const metadata = {

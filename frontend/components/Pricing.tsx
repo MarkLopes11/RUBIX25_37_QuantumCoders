@@ -1,7 +1,6 @@
 import React from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"; // Import the Card component
 import { Meteors } from "@/components/ui/meteors"; // Import the Meteors component
-import Link from "next/link"
 
 const Pricing = () => {
   return (
@@ -9,7 +8,7 @@ const Pricing = () => {
       {/* Meteor Background Effect */}
       <Meteors number={30} className="absolute inset-0 z-10" />
 
-      <h2 className="text-3xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 mb-8 relative z-20">Pricing</h2>
+      <h2 className="text-3xl font-semibold text-white mb-8 relative z-20">Pricing</h2>
       <div className="flex justify-center gap-8 px-4 sm:px-8 lg:px-16 relative z-20">
         {/* Basic Plan Card */}
         <Card className="bg-gradient-to-r from-[#0894FF] to-[#C959DD] w-64 p-6 rounded-2xl shadow-xl hover:shadow-2xl transform transition-all hover:scale-105">
@@ -22,11 +21,9 @@ const Pricing = () => {
               <li>Access to basic wardrobe management</li>
               <li>Limited styling recommendations</li>
             </ul>
-            <Link href="/FashionAIHelper">
             <button className="bg-primary text-white py-2 px-6 rounded-full hover:bg-primary-dark transition">
               Get Started
             </button>
-            </Link>
           </CardContent>
         </Card>
 
@@ -36,7 +33,7 @@ const Pricing = () => {
             <CardTitle className="text-white text-center">Pro Plan</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-lg mb-4 text-white">199 rs/month</p>
+            <p className="text-lg mb-4 text-white">$9.99/month</p>
             <ul className="text-left mb-4 text-white">
               <li>Advanced AI styling</li>
               <li>Cloud storage integration</li>

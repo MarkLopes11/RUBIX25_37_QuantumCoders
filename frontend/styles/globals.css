@@ -125,3 +125,25 @@ button:hover {
 .glowing-line:hover, .glowing-line:focus {
   box-shadow: 0 0 20px rgba(8, 148, 255, 1), 0 0 30px rgba(201, 89, 221, 1);
 }
+
+.copilot-popup {
+  --cp-bg-primary: rgba(5, 16, 31, 0.9) !important;
+  --cp-bg-secondary: rgba(17, 24, 39, 0.9) !important;
+  --cp-text-primary: #f3f4f6 !important;
+  --cp-text-secondary: #9ca3af !important;
+  --cp-border-primary: #374151 !important;
+}
+
+/* Additional specificity for popup elements */
+.copilot-popup .cp-popup-container {
+  background-color: rgba(5, 16, 31, 0.9) !important;
+}
+
+.copilot-popup .cp-chat-input {
+  background-color: rgba(17, 24, 39, 0.9) !important;
+  color: #f3f4f6 !important;
+}
+
+.copilot-popup .cp-message-list {
+  background-color: rgba(5, 16, 31, 0.9) !important;
+}
