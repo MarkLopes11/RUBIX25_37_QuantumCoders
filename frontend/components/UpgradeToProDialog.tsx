@@ -52,12 +52,14 @@ const UpgradeToProDialog = ({ onUpgrade }: { onUpgrade: () => void }) => {
             {isProUser ? (
               <div>
                 <h3 className="text-xl font-bold text-white">Your Fashion History</h3>
-                <ul className="text-white mt-2">
-                  <li>Upload 1: Trendy Casual Outfit</li>
-                  <li>Upload 2: Formal Evening Wear</li>
-                  <li>Upload 3: Sportswear</li>
-                  {/* Add more history items dynamically here */}
-                </ul>
+                <div className="max-h-72 overflow-y-scroll text-white mt-2">
+                  <ul>
+                    <li>Upload 1: Trendy Casual Outfit</li>
+                    <li>Upload 2: Formal Evening Wear</li>
+                    <li>Upload 3: Sportswear</li>
+                    {/* Add more history items dynamically here */}
+                  </ul>
+                </div>
               </div>
             ) : (
               <div className="flex justify-end gap-4 mt-4">
