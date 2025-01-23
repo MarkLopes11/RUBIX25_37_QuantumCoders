@@ -8,7 +8,7 @@ const Pricing = () => {
       {/* Meteor Background Effect */}
       <Meteors number={30} className="absolute inset-0 z-10" />
 
-      <h2 className="text-3xl font-semibold text-white mb-8 relative z-20">Pricing</h2>
+      <h2 className="text-3xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 mb-8 relative z-20">Pricing</h2>
       <div className="flex justify-center gap-8 px-4 sm:px-8 lg:px-16 relative z-20">
         {/* Basic Plan Card */}
         <Card className="bg-gradient-to-r from-[#0894FF] to-[#C959DD] w-64 p-6 rounded-2xl shadow-xl hover:shadow-2xl transform transition-all hover:scale-105">

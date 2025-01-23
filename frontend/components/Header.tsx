@@ -20,7 +20,7 @@ const Header = () => {
           <Link href="#services" className="text-n-3 hover:text-n-1 transition">
             <Shirt size={24} />
           </Link>
-          <Link href="/profile" className="text-n-3 hover:text-n-1 transition">
+          <Link href="#" className="text-n-3 hover:text-n-1 transition">
             <User size={24} />
           </Link>
           <UserButton/>

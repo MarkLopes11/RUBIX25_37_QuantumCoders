@@ -9,7 +9,7 @@ const Services = () => {
       {/* Meteor Background Effect */}
       <Meteors number={30} className="absolute inset-0 z-10" />
 
-      <h2 className="text-3xl font-semibold text-white mb-8 relative z-20">Our Features</h2>
+      <h2 className="text-3xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 mb-8 relative z-20">Our Features</h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-4 sm:px-8 lg:px-16 relative z-20">
         {/* Personalized Styling Service */}
