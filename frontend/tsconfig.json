@@ -18,8 +18,9 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",  // This sets the base directory for relative paths
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"]  // This creates the alias
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

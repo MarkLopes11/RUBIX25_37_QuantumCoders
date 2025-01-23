@@ -1,0 +1,127 @@
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sora: "Sora", sans-serif;
+  --font-code: "Source Code Pro", monospace;
+  --font-grotesk: "Space Grotesk", sans-serif;
+  color-scheme: dark;
+
+  /* Dark Theme Colors */
+  --dark-bg: #121212; /* Dark Background */
+  --dark-foreground: #e0e0e0; /* Light Text */
+  --primary-color: #0894FF; /* Cool Blue */
+  --secondary-color: #C959DD; /* Cool Purple */
+  --accent-color: #4E81FF; /* Light Cool Blue */
+  --button-hover: #FF90D0; /* Hover Effect Color */
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+html, body {
+  overflow-x: hidden; /* Disable horizontal scrolling */
+}
+
+@layer base {
+  body {
+    @apply font-sans bg-[#121212] text-[var(--dark-foreground)] text-base;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-primary font-semibold;
+  }
+}
+
+/* Starry Background with Meteor Effects */
+.starry-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #121212;
+  
+  /* Increase meteor particle density */
+  background-image: 
+    radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.05) 2px, transparent 2px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.02) 4px, transparent 4px); /* Additional layer for more particles */
+  background-size: 50px 50px, 100px 100px, 150px 150px; /* Adjusting size of stars */
+  animation: twinkling 1.5s infinite, meteor-shower 10s infinite linear; /* Adding meteor shower animation */
+  z-index: -1;
+}
+
+@keyframes twinkling {
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes meteor-shower {
+  0% {
+    background-position: -150% -150%;
+  }
+  100% {
+    background-position: 150% 150%;
+  }
+}
+
+
+/* Button Styles */
+button {
+  @apply py-2 px-6 rounded-full text-white transition-all duration-300 ease-in-out;
+}
+
+button:hover {
+  background-color: var(--button-hover);
+}
+
+/* Glowing Line Container */
+.glowing-line-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  width: 100%; /* Ensures it takes the full width */
+}
+
+/* Glowing Line */
+.glowing-line {
+  width: 80%;
+  height: 2px;
+  background: linear-gradient(90deg, #0894FF, #C959DD, #0894FF);
+  box-shadow: 0 0 10px rgba(8, 148, 255, 0.7), 0 0 20px rgba(201, 89, 221, 0.7);
+  animation: glowing 1.5s ease-in-out infinite alternate;
+  transition: all 0.3s ease;
+  border-radius: 9999px; /* Rounded full edges for the line */
+}
+
+@keyframes glowing {
+  0% {
+    box-shadow: 0 0 10px rgba(8, 148, 255, 0.7), 0 0 20px rgba(201, 89, 221, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(8, 148, 255, 1), 0 0 30px rgba(201, 89, 221, 1);
+  }
+  100% {
+    box-shadow: 0 0 30px rgba(8, 148, 255, 0.7), 0 0 40px rgba(201, 89, 221, 0.7);
+  }
+}
+
+/* Glowing Effect on Hover or Focus */
+.glowing-line:hover, .glowing-line:focus {
+  box-shadow: 0 0 20px rgba(8, 148, 255, 1), 0 0 30px rgba(201, 89, 221, 1);
+}
