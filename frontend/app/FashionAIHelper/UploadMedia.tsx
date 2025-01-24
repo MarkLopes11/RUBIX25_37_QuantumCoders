@@ -6,10 +6,13 @@ import { CopilotKit } from "@copilotkit/react-core";
 import { CopilotPopup } from "@copilotkit/react-ui";
 import {Card, CardHeader, CardTitle, CardDescription, CardContent,} from '@/components/ui/card';
 
+// Global CSS for dark theme (add to your global CSS file)
+
 
 export default function App() {
+    const copilotKitApiKey=process.env.NEXT_PUBLIC_COPILOT_KEY;
     return (
-        <CopilotKit publicApiKey="ck_pub_94b65ab4dd382d289a397603032943b5">
+        <CopilotKit publicApiKey={copilotKitApiKey}>
             <UploadMediaWithPopup />
         </CopilotKit>
     );
