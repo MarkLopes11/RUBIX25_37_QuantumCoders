@@ -19,17 +19,18 @@ function UploadMediaWithPopup() {
     const [imageURL, setImageURL] = useState<string | null>(null);
     const [imageFiles, setImageFiles] = useState<File[]>([]);
     const [loading, setLoading] = useState(false);
+    const [outfitLoading, setOutfitLoading] = useState(false);
     const [analysisResult, setAnalysisResult] = useState<any>(null);
     const [outfitCombinations, setOutfitCombinations] = useState<any>(null);
     const [imageUrls, setImageUrls] = useState<string[]>([]);
     const [error, setError] = useState<string | null>(null);
-    const [reportDownloaded, setReportDownloaded] = useState(false); // Track report download
+    const [reportDownloaded, setReportDownloaded] = useState(false);
     const API_URL = "http://127.0.0.1:5000/api/upload";
     const ANALYZE_API_URL = "http://127.0.0.1:5000/api/analyze";
     const OUTFITS_API_URL = "http://127.0.0.1:5000/api/outfits";
     const IMAGE_API_URI = "http://127.0.0.1:5000/api/ai_image";
     const REPORT_API_URL = "http://127.0.0.1:5000/api/generate_report";
-    const REDIRECT_URL = "https://ai-fashion-assistant.streamlit.app/";
+    const REDIRECT_URL = "https://fashion-rag.streamlit.app/"; // Updated redirect URL
 
     const clearError = () => {
         setError(null);
@@ -84,7 +85,7 @@ function UploadMediaWithPopup() {
         setLoading(true);
         setError(null);
         setOutfitCombinations(null);
-        setReportDownloaded(false); // Reset download state
+        setReportDownloaded(false);
 
         try {
             const uploadFormData = new FormData();
@@ -132,9 +133,9 @@ function UploadMediaWithPopup() {
             setError("Please analyze an image first");
             return;
         }
-        setLoading(true);
+        setOutfitLoading(true)
         setError(null);
-        setReportDownloaded(false); // Reset download state
+        setReportDownloaded(false);
 
         try {
             const outfitsResponse = await fetch(OUTFITS_API_URL, {
@@ -158,7 +159,7 @@ function UploadMediaWithPopup() {
             console.error("Error generating outfits:", error);
             setError(error?.message || "Error generating outfits");
         } finally {
-            setLoading(false);
+           setOutfitLoading(false)
         }
     };
 
@@ -199,7 +200,7 @@ function UploadMediaWithPopup() {
             a.download = "fashion_report.txt";
             a.click();
             window.URL.revokeObjectURL(url);
-            setReportDownloaded(true); // Set download state to true
+            setReportDownloaded(true);
         } catch (error: any) {
             console.error("Error downloading the report", error);
             setError(error?.message || "Error downloading the report");
@@ -367,10 +368,11 @@ function UploadMediaWithPopup() {
 
                     {analysisResult && (
                         <div className="flex justify-center mt-8">
+                             {outfitLoading && <ClipLoader color="#f472b6" size={24} />}
                             <button
                                 onClick={handleOutfits}
                                 className="bg-gradient-to-r from-pink-500 to-yellow-500 text-white text-2xl font-semibold py-4 px-8 rounded-full hover:bg-gradient-to-r hover:from-pink-600 hover:to-yellow-600 transition duration-300"
-                                disabled={loading}
+                                disabled={outfitLoading}
                             >
                                 Get Outfit Recommendations
                             </button>
