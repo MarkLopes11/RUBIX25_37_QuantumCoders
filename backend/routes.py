@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 import os
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
@@ -8,6 +8,8 @@ from PIL import Image
 import re
 import json
 from dotenv import load_dotenv
+from io import StringIO
+from datetime import datetime
 
 load_dotenv()
 gemini_api_key = os.getenv("GOOGLE_API_KEY")
@@ -25,8 +27,11 @@ CORS(app)
 
 USER_PROMPT = ""
 UPLOAD_FOLDER = './uploads'
+REPORTS_FOLDER = './reports' # Define reports folder
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs(REPORTS_FOLDER, exist_ok=True) # Create the reports folder if it doesn't exist
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['REPORTS_FOLDER'] = REPORTS_FOLDER # Set the reports folder in app config
 ALLOWED_IMAGE_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 ALLOWED_VIDEO_EXTENSIONS = {'mp4', 'mov'}
 
@@ -123,6 +128,45 @@ def generate_outfit_combinations(catalog):
         print(f"Error generating outfit combinations: {e}")
         return None, None
 
+def create_report(analysis_result, outfit_combinations):
+    report = StringIO()
+    report.write("Fashion AI Report\n")
+    report.write("-------------------\n\n")
+
+    if analysis_result:
+        report.write("Image Analysis Results:\n")
+        for idx, item in enumerate(analysis_result):
+             report.write(f"\nAnalysis {idx+1}:\n")
+             report.write(f"  Description: {item.get('description', 'N/A')}\n")
+             report.write(f"  Category: {item.get('category', 'N/A')}\n")
+             report.write(f"  Colors: {', '.join(item.get('colors', ['N/A']))}\n")
+             report.write(f"  Style: {', '.join(item.get('style', ['N/A']))}\n")
+             report.write(f"  Gender Type: {item.get('gender_type', 'N/A')}\n")
+             report.write(f"  Suitable Weather: {item.get('suitable_weather', 'N/A')}\n")
+             report.write(f"  Material: {item.get('material', 'N/A')}\n")
+             report.write(f"  Occasion: {item.get('occasion', 'N/A')}\n")
+        report.write("\n")
+
+    if outfit_combinations and outfit_combinations.get("outfits"):
+        report.write("Outfit Recommendations:\n")
+        outfits_text = outfit_combinations["outfits"]
+
+        # Remove asterisks from outfit combinations
+        outfits_text = outfits_text.replace("*", "")
+
+
+        report.write(f"{outfits_text}\n")
+        report.write("\n")
+        if outfit_combinations.get("recommendations"):
+            report.write("Recommended Items:\n")
+            for item in outfit_combinations.get("recommendations"):
+                 report.write(f"  - {item.get('description', 'N/A')}: {item.get('link', 'N/A')}\n")
+            report.write("\n")
+
+    report.seek(0)
+    return report
+
+
 @app.route('/api/upload', methods=['POST'])
 def upload_media():
     try:
@@ -202,6 +246,38 @@ def outfits():
 def ai_image():
     image_generated_url = create_image_from_user_style(USER_PROMPT)
     return jsonify({"ai_image": image_generated_url})
+
+@app.route('/api/generate_report', methods=['POST'])
+def generate_report():
+    try:
+        data = request.get_json()
+        if not data or 'analysisResult' not in data or 'outfitCombinations' not in data:
+            return jsonify({"error": "Missing analysis result or outfit combinations."}), 400
+
+        analysis_result = data['analysisResult']
+        outfit_combinations = data['outfitCombinations']
+
+        report_content = create_report(analysis_result, outfit_combinations)
+
+         # Get the current timestamp
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+         # Create a file name with timestamp
+        filename = f"fashion_report_{timestamp}.txt"
+        
+        # Get the full path to save in the reports folder
+        file_path = os.path.join(app.config['REPORTS_FOLDER'], filename)
+        
+        # Save to disk and return file
+        with open(file_path, 'w') as f:
+            f.write(report_content.getvalue())
+
+        return send_file(file_path, as_attachment=True, download_name=filename)
+
+    except Exception as e:
+        print(f"Error generating report: {e}")
+        return jsonify({"error": "Failed to generate report."}), 500
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
