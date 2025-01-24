@@ -379,83 +379,77 @@ function UploadMediaWithPopup() {
                         </div>
                     )}
 
-                    {outfitCombinations && (
-                        <div className="mt-6 bg-gradient-to-b from-purple-500 to-indigo-500 p-4 rounded-xl shadow-md">
-                            <h3 className="text-xl font-semibold text-white">Outfit Suggestions:</h3>
-                            <div className="space-y-4">
-                                {outfitCombinations.outfits
-                                    .split("**")
-                                    .map((item: string, index: number) => {
-                                        if (item.startsWith("Outfit")) {
-                                            return (
-                                                <h3
-                                                    key={index}
-                                                    className="mt-4 font-semibold text-lg text-white"
-                                                >
-                                                    {item.replace("*", "").trim()}
-                                                </h3>
-                                            );
-                                        } else if (item.startsWith("Description")) {
-                                            return (
-                                                <p key={index} className="text-gray-300">
-                                                    {item.replace("*", "").trim()}
-                                                </p>
-                                            );
-                                        } else if (
-                                            item.startsWith("Bottoms:") ||
-                                            item.startsWith("Top:")
-                                        ) {
-                                            const [label, value] = item.split(":");
-                                            return (
-                                                <div
-                                                    key={index}
-                                                    className="flex items-center justify-between"
-                                                >
-                                                    <span className="font-semibold text-gray-200 mr-2">
-                                                        {label.replace("*", "").trim()}:
-                                                    </span>
-                                                    <span className="text-white">
-                                                        {value.replace("*", "").trim()}
-                                                    </span>
-                                                </div>
-                                            );
-                                        } else {
-                                            return (
-                                                <p key={index} className="text-white">
-                                                    {item}
-                                                </p>
-                                            );
-                                        }
-                                    })}
+{outfitCombinations && (
+    <div className="mt-6 bg-gradient-to-b from-purple-500 to-indigo-500 p-6 rounded-xl shadow-xl">
+        <h3 className="text-3xl font-bold text-white mb-6 text-center">
+            Outfit Suggestions:
+        </h3>
+        
+        {/* Display each outfit combination */}
+        <div className="space-y-8">
+            {outfitCombinations.outfits.split("**").map((item: string, index: number) => {
+                // Clean up the string by removing the asterisks
+                const cleanItem = item.replace(/\*/g, "").trim();
 
-                                <h3 className="mt-4 font-semibold text-lg text-white">
-                                    Recommended Items:
-                                </h3>
-                                {outfitCombinations.recommendations ? (
-                                    <ul className="list-disc list-inside text-white">
-                                        {outfitCombinations.recommendations.map(
-                                            (item: any, index: number) => (
-                                                <li key={index}>
-                                                    <a
-                                                        href={item.link}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="text-blue-500 hover:text-blue-300 underline"
-                                                    >
-                                                        {item.description}
-                                                    </a>
-                                                </li>
-                                            )
-                                        )}
-                                    </ul>
-                                ) : (
-                                    <p className="text-white">
-                                        Could not get recommendations
-                                    </p>
-                                )}
-                            </div>
+                if (cleanItem.startsWith("Outfit")) {
+                    return (
+                        <h4 key={index} className="font-bold text-2xl text-white bg-gradient-to-r from-purple-600 to-indigo-600 p-3 rounded-xl shadow-md text-center">
+                            {cleanItem}
+                        </h4>
+                    );
+                } else if (cleanItem.startsWith("Description")) {
+                    return (
+                        <p key={index} className="font-semibold text-gray-200 italic text-lg">
+                            {cleanItem}
+                        </p>
+                    );
+                } else if (cleanItem.startsWith("Bottoms:") || cleanItem.startsWith("Top:")) {
+                    const [label, value] = cleanItem.split(":");
+                    return (
+                        <div key={index} className="flex items-center justify-between text-white text-lg font-semibold mt-2">
+                            <span className="font-bold text-gray-300 text-xl">{label.trim()}:</span>
+                            <span className="text-xl">{value.trim()}</span>
                         </div>
-                    )}
+                    );
+                } else if (cleanItem.startsWith("Items:") || cleanItem.startsWith("Description:")) {
+                    // Bold "Items:" and "Description:" labels with larger size
+                    return (
+                        <div key={index} className="text-white text-xl">
+                            <span className="font-semibold text-2xl">{cleanItem.split(":")[0]}:</span>
+                            <span className="ml-2 text-xl">{cleanItem.split(":")[1]}</span>
+                        </div>
+                    );
+                } else {
+                    return (
+                        <p key={index} className="text-white text-lg">{cleanItem}</p>
+                    );
+                }
+            })}
+
+            {/* Recommended Items Section */}
+            <h4 className="mt-6 font-semibold text-2xl text-white">Recommended Items:</h4>
+            {outfitCombinations.recommendations ? (
+                <ul className="list-disc list-inside text-white space-y-4">
+                    {outfitCombinations.recommendations.map((item: any, index: number) => (
+                        <li key={index} className="flex items-center space-x-4 text-lg">
+                            <a
+                                href={item.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-300 hover:text-blue-500 underline font-semibold transition-all"
+                            >
+                                {item.description}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <p className="text-white text-lg">Could not get recommendations</p>
+            )}
+        </div>
+    </div>
+)}
+
 
                     {outfitCombinations && (
                         <div className="flex justify-center mt-8">
