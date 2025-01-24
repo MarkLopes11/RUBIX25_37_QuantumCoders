@@ -17,7 +17,7 @@ const Header = () => {
       <div className="flex justify-between items-center">
         {/* Logo on the left */}
         <Link href="/" className="text-2xl font-bold text-primary">
-          AI Fashion Wardrobe
+          Fashion Forge
         </Link>
         {/* Navigation Icons on the right */}
         <nav className="flex gap-6 ml-auto items-center">

@@ -1,6 +1,6 @@
 "use client";
-import React, { useState } from "react";
-import { Upload, FileDown, ArrowRight } from "lucide-react";
+import React, { useState, useRef } from "react";
+import { Upload, FileDown, ArrowRight, Camera } from "lucide-react";
 import { ClipLoader } from "react-spinners";
 import { CopilotKit } from "@copilotkit/react-core";
 import { CopilotPopup } from "@copilotkit/react-ui";
@@ -30,7 +30,9 @@ function UploadMediaWithPopup() {
     const OUTFITS_API_URL = "http://127.0.0.1:5000/api/outfits";
     const IMAGE_API_URI = "http://127.0.0.1:5000/api/ai_image";
     const REPORT_API_URL = "http://127.0.0.1:5000/api/generate_report";
-    const REDIRECT_URL = "https://fashion-rag.streamlit.app/"; // Updated redirect URL
+    const REDIRECT_URL = "https://fashion-rag.streamlit.app/";
+     const videoRef = useRef<HTMLVideoElement>(null); // Ref for video element
+    const [isCameraOpen, setIsCameraOpen] = useState(false)
 
     const clearError = () => {
         setError(null);
@@ -70,12 +72,72 @@ function UploadMediaWithPopup() {
 
     const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
-        if (files) {
-            setImageFiles(Array.from(files));
-            const urls = Array.from(files).map((file) => URL.createObjectURL(file));
-            setImageUrls((prevUrls) => [...prevUrls, ...urls]);
-        }
+         if(files){
+               setImageFiles(Array.from(files));
+                const urls = Array.from(files).map((file) => URL.createObjectURL(file));
+                setImageUrls((prevUrls) => [...prevUrls, ...urls]);
+          }
     };
+
+     const handleCameraOpen = async () => {
+        setIsCameraOpen(true);
+
+        try {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                throw new Error("Camera not supported on this browser");
+            }
+             const stream = await navigator.mediaDevices.getUserMedia({
+                video: true,
+                audio:false,
+            });
+            if(videoRef.current){
+                 videoRef.current.srcObject=stream;
+            }
+
+        } catch (error: any) {
+            console.error("Error accessing camera:", error);
+             setError(error?.message || "Error accessing camera")
+             setIsCameraOpen(false)
+        }
+     }
+     const handleTakePhoto = () => {
+        if(!videoRef.current){
+          setError("Camera not opened")
+             return;
+        }
+        const video = videoRef.current;
+
+        const canvas = document.createElement('canvas');
+        canvas.width=video.videoWidth;
+        canvas.height=video.videoHeight;
+
+        const context=canvas.getContext('2d');
+        if(!context){
+             setError("Failed to get canvas context.")
+             return;
+        }
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+         canvas.toBlob(blob => {
+                if (blob) {
+                   const file = new File([blob], 'photo.png', { type: 'image/png' });
+                   setImageFiles([file]);
+                    const url= URL.createObjectURL(file)
+                   setImageUrls([url])
+                    setIsCameraOpen(false);
+                }
+                else{
+                   setError("Error creating blob")
+                }
+            }, 'image/png');
+
+       if(video.srcObject){
+          const stream = video.srcObject as MediaStream;
+          stream.getTracks().forEach(track => track.stop());
+           video.srcObject=null;
+       }
+    }
+
 
     const handleSubmit = async () => {
         if (imageFiles.length === 0) {
@@ -225,7 +287,7 @@ function UploadMediaWithPopup() {
                 <div className="w-full">
                     <h1 className="text-4xl md:text-6xl font-extrabold text-center mb-12 animate-pulse">
                         <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500">
-                            Fashion AI Helper
+                            Fashion Forge
                         </span>
                     </h1>
                     {error && (
@@ -256,7 +318,22 @@ function UploadMediaWithPopup() {
                             <h2 className="text-3xl font-bold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-yellow-500">
                                 Upload Image
                             </h2>
-                            <div className="border-4 border-dashed border-pink-500 rounded-lg p-12 text-center mb-4">
+                            <div className="border-4 border-dashed border-pink-500 rounded-lg p-12 text-center mb-4 relative">
+                              {isCameraOpen && (
+                                <div className="absolute inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+                                  <div className="bg-gray-800 p-6 rounded-xl shadow-2xl">
+                                      <video ref={videoRef} autoPlay className="max-w-md max-h-96 rounded-xl"></video>
+                                       <div className="mt-4 flex justify-center gap-4">
+                                          <button onClick={handleTakePhoto} className="bg-pink-500 hover:bg-pink-600 text-white rounded-full px-6 py-2 transition-all">
+                                             Take Photo
+                                          </button>
+                                            <button onClick={()=> setIsCameraOpen(false)} className="bg-red-500 hover:bg-red-600 text-white rounded-full px-6 py-2 transition-all">
+                                             Close Camera
+                                          </button>
+                                       </div>
+                                    </div>
+                                </div>
+                              )}
                                 <input
                                     type="file"
                                     accept="image/*"
@@ -274,8 +351,16 @@ function UploadMediaWithPopup() {
                                         Choose Images
                                     </span>
                                 </label>
+
+                                   <button
+                                        onClick={handleCameraOpen}
+                                        className="bg-gray-700 hover:bg-gray-600 text-white text-lg font-semibold py-2 px-4 rounded-full mt-4 transition-all"
+                                   >
+                                        <Camera className="w-5 h-5 mr-2" />Open Camera
+                                    </button>
+
                                 {imageUrls.length > 0 && (
-                                    <div className="flex flex-wrap justify-center gap-4">
+                                    <div className="flex flex-wrap justify-center gap-4 mt-4">
                                         {imageUrls.map((url, index) => (
                                             <img
                                                 key={index}
@@ -287,7 +372,7 @@ function UploadMediaWithPopup() {
                                     </div>
                                 )}
                                 {imageFiles.length > 0 && (
-                                    <div className="text-sm text-gray-500">
+                                    <div className="text-sm text-gray-500 mt-2">
                                         {imageFiles.map((file, index) => (
                                             <div
                                                 key={index}
@@ -427,7 +512,7 @@ function UploadMediaWithPopup() {
             })}
 
             {/* Recommended Items Section */}
-            <h4 className="mt-6 font-semibold text-2xl text-white">Recommended Items:</h4>
+            <h4 className="mt-6 font-semibold text-2xl text-white"></h4>
             {outfitCombinations.recommendations ? (
                 <ul className="list-disc list-inside text-white space-y-4">
                     {outfitCombinations.recommendations.map((item: any, index: number) => (
@@ -444,7 +529,7 @@ function UploadMediaWithPopup() {
                     ))}
                 </ul>
             ) : (
-                <p className="text-white text-lg">Could not get recommendations</p>
+                <p className="text-white text-lg"></p>
             )}
         </div>
     </div>
