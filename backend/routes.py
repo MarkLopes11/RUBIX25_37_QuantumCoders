@@ -168,7 +168,6 @@ def analyze():
              image_path = os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(image.filename))
              image.save(image_path)
              analysis_result = analyze_image(image_path)
-             os.remove(image_path)
 
              if analysis_result:
                  return jsonify(analysis_result), 200

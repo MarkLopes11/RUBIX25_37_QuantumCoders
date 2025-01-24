@@ -8,7 +8,6 @@ import {Card, CardHeader, CardTitle, CardDescription, CardContent,} from '@/comp
 
 const copilotKitApiKey = process.env.NEXT_PUBLIC_COPILOT_API_KEY;
 
-
 export default function App() {
     return (
         <CopilotKit publicApiKey={copilotKitApiKey}>
@@ -19,7 +18,6 @@ export default function App() {
 
 function UploadMediaWithPopup() {
     const [imageFiles, setImageFiles] = useState<File[]>([]);
-    const [imagePrompt, setImagePrompt] = useState("");
     const [loading, setLoading] = useState(false);
     const [analysisResult, setAnalysisResult] = useState<any>(null);
     const [outfitCombinations, setOutfitCombinations] = useState<any>(null)
@@ -49,9 +47,6 @@ function UploadMediaWithPopup() {
             imageFiles.forEach((file) => {
                 uploadFormData.append("images", file);
             });
-            if (imagePrompt) {
-                uploadFormData.append("imagePrompt", imagePrompt);
-            }
             const uploadResponse = await fetch(API_URL, {
                 method: "POST",
                 body: uploadFormData,
@@ -82,7 +77,6 @@ function UploadMediaWithPopup() {
             const data = await uploadResponse.json()
             alert(`Media uploaded successfully, files: ${data.files.join(", ")}`)
             setImageFiles([]);
-            setImagePrompt("");
         }
         catch(error){
             alert("Error submitting media and prompt.");
@@ -145,7 +139,7 @@ function UploadMediaWithPopup() {
                         </span>
                     </h1>
                     <div className="flex flex-col md:flex-row gap-8">
-                        <div className="flex-1 bg-gray-900 rounded-lg shadow-xl p-6">
+                        <div className="w-full bg-gray-900 rounded-lg shadow-xl p-6">
                             <h2 className="text-3xl font-bold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-yellow-500">
                                 Upload Image
                             </h2>
@@ -160,7 +154,7 @@ function UploadMediaWithPopup() {
                                 />
                                 <label
                                     htmlFor="imageUpload"
-                                    className="cursor-pointer flex flex-col items-center justify-center"
+                                    className="cursor-pointer flex flex-col items-center justify-center h-48"
                                 >
                                     <Upload className="w-12 h-12 text-pink-500 mb-2" />
                                     <span className="text-lg font-semibold text-pink-500">
@@ -187,13 +181,6 @@ function UploadMediaWithPopup() {
                                     </div>
                                 )}
                             </div>
-                            <textarea
-                                value={imagePrompt}
-                                onChange={(e) => setImagePrompt(e.target.value)}
-                                placeholder="Describe your desired outfit or style..."
-                                className="w-full p-2 rounded-md bg-gray-800 text-white border border-pink-500 focus:outline-none focus:ring-2 focus:ring-pink-500"
-                                rows={3}
-                            />
                         </div>
                     </div>
                     <div className="flex justify-center items-center mt-8">
