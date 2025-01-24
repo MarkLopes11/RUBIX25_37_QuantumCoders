@@ -14,20 +14,5 @@ def create_image_from_user_style(input):
         n=4
     )
     image_url=response.data[0].url
-    print(image_url)
-    list_url.append(image_url)
-gender = 'male'  
-create_image_from_user_style('''
-Casual Spring Day
-*
-Gender:{gender}
-Items:
-
-Pink cardigan sweater, white crew neck t-shirt, gray denim jeans. *
-
-Description:
-For male
-A relaxed and comfortable outfit perfect for a spring day.
-The pink cardigan adds a pop of color over the classic white t-shirt and gray jeans. 
-Suitable for a casual lunch date or running errands.''')
+    return image_url
 

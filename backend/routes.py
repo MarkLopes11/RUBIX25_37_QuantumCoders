@@ -23,7 +23,7 @@ model_8b = genai.GenerativeModel('gemini-1.5-flash-8b')
 app = Flask(__name__)
 CORS(app)
 
-USER_PROMT = ""
+USER_PROMPT = ""
 UPLOAD_FOLDER = './uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -201,8 +201,8 @@ def outfits():
 
 @app.route('/api/ai_image', methods=['POST'])
 def ai_image():
-    image_generated_url = create_image_from_user_style(USER_PROMT)
-    return image_generated_url
+    image_generated_url = create_image_from_user_style(USER_PROMPT)
+    return jsonify({"ai_image": image_generated_url})
 
 if __name__ == '__main__':
     app.run(debug=True)
