@@ -20,7 +20,6 @@
     "next": "15.1.5",
     "radix-ui": "^1.1.0",
     "react": "^19.0.0",
-    "react-dialog": "^0.1.0",
     "react-dom": "^19.0.0",
     "react-spinners": "^0.15.0",
     "tailwind-merge": "^2.6.0",
@@ -28,7 +27,7 @@
   },
   "devDependencies": {
     "@types/node": "^20",
-    "@types/react": "^19",
+    "@types/react": "^19.0.8",
     "@types/react-dom": "^19",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
