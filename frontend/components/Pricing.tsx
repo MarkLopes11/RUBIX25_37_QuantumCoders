@@ -17,7 +17,7 @@ const Pricing = () => {
           </CardHeader>
           <CardContent>
             <p className="text-lg mb-4 text-white">Free</p>
-            <ul className="text-left mb-4 text-white">
+            <ul className="list-disc text-left mb-4 text-white">
               <li>Access to basic wardrobe management</li>
               <li>Limited styling recommendations</li>
             </ul>
@@ -33,10 +33,10 @@ const Pricing = () => {
             <CardTitle className="text-white text-center">Pro Plan</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-lg mb-4 text-white">$9.99/month</p>
-            <ul className="text-left mb-4 text-white">
+            <p className="text-lg mb-4 text-white">₹99/month</p>
+            <ul className="list-disc text-left mb-4 text-white">
               <li>Advanced AI styling</li>
-              <li>Cloud storage integration</li>
+              <li>History Of Previous Catalogue</li>
               <li>Unlimited wardrobe items</li>
             </ul>
             <button className="bg-primary text-white py-2 px-6 rounded-full hover:bg-primary-dark transition">
