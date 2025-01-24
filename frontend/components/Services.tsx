@@ -1,5 +1,5 @@
 import React from "react";
-import { Heart, Cloud, ShoppingBag } from "lucide-react";
+import { Heart, Cloud, ShoppingBag, Brain} from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"; // Adjust the import path as necessary
 import { Meteors } from "@/components/ui/meteors"; // Import the Meteors component
 
@@ -27,17 +27,16 @@ const Services = () => {
           </CardContent>
         </Card>
 
-        {/* Cloud-Based Wardrobe Service */}
         <Card className="bg-gradient-to-r from-[#4E81FF] to-[#FF90D0] p-6 rounded-2xl shadow-xl hover:shadow-2xl transform transition-all hover:scale-105">
           <CardHeader>
             <CardTitle className="flex items-center justify-center mb-4 text-white">
-              <Cloud className="text-white mr-2" size={36} />
-              Cloud-Based Wardrobe
+              <Brain className="text-white mr-2" size={36} />
+              Trend Tracker
             </CardTitle>
           </CardHeader>
           <CardContent>
             <CardDescription className="text-white">
-              Access and manage your wardrobe from anywhere, anytime with cloud storage.
+            Analyze global fashion trends and inspire users to create similar looks using their wardrobe or AI suggestions.
             </CardDescription>
           </CardContent>
         </Card>
