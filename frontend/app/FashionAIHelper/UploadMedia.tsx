@@ -4,7 +4,7 @@ import { Upload } from "lucide-react";
 import { ClipLoader } from "react-spinners";
 import { CopilotKit } from "@copilotkit/react-core";
 import { CopilotPopup } from "@copilotkit/react-ui";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardContent, } from '@/components/ui/card';
 
 // Global CSS for dark theme (add to your global CSS file)
 
@@ -37,14 +37,14 @@ function UploadMediaWithPopup() {
                     "Content-Type": "application/json",
                 },
             });
-    
+
             if (!response.ok) {
                 throw new Error("Failed to fetch AI image");
             }
-    
+
             const data = await response.json();
             if (data.ai_image) {
-                setImageURL(data.ai_image); 
+                setImageURL(data.ai_image);
                 console.log("AI Image URL:", data.ai_image);
             } else {
                 console.error("No image URL received from the server");
@@ -171,7 +171,7 @@ function UploadMediaWithPopup() {
                             <h2 className="text-3xl font-bold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-yellow-500">
                                 Upload Image
                             </h2>
-                            <div className="border-4 border-dashed border-pink-500 rounded-lg p-4 text-center mb-4">
+                            <div className="border-4 border-dashed border-pink-500 rounded-lg p-12 text-center mb-4"> {/* Changed p-4 to p-8 */}
                                 <input
                                     type="file"
                                     accept="image/*"
@@ -182,13 +182,20 @@ function UploadMediaWithPopup() {
                                 />
                                 <label
                                     htmlFor="imageUpload"
-                                    className="cursor-pointer flex flex-col items-center justify-center h-48"
+                                    className="cursor-pointer flex flex-col items-center justify-center h-48 h-auto"
                                 >
                                     <Upload className="w-12 h-12 text-pink-500 mb-2" />
                                     <span className="text-lg font-semibold text-pink-500">
                                         Choose Images
                                     </span>
                                 </label>
+                                {imageUrls.length > 0 && (
+                                    <div className="flex flex-wrap justify-center gap-4"> {/* Container for images */}
+                                        {imageUrls.map((url, index) => (
+                                            <img key={index} src={url} alt={`Uploaded Image ${index + 1}`} className="max-w-xs rounded-md shadow-md object-contain" />
+                                        ))}
+                                    </div>
+                                )}
                                 {imageFiles.length > 0 && (
                                     <div className="text-sm text-gray-500">
                                         {imageFiles.map((file, index) => (
@@ -221,13 +228,7 @@ function UploadMediaWithPopup() {
                             Submit
                         </button>
                     </div>
-                    {imageUrls.length > 0 && (
-                        <div className="mt-6 flex flex-wrap justify-center gap-4">
-                            {imageUrls.map((url, index) => (
-                                <img key={index} src={url} alt={`Uploaded Image ${index + 1}`} className="max-w-xs rounded-md shadow-md" />
-                            ))}
-                        </div>
-                    )}
+
 
                     {analysisResult && (
                         <div className="overflow-x-auto">
@@ -340,10 +341,10 @@ function UploadMediaWithPopup() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ml-5 mr-5">
             <Card className="rounded-xl shadow-md hover:shadow-lg transition-transform transform hover:scale-95 mb-5">
                 <div className="w-full aspect-w-16 aspect-h-9 overflow-hidden rounded-xl">
-                    <img 
-                        src={imageURL} 
-                        alt="Analyzed Image" 
-                        className="w-full h-full object-cover" 
+                    <img
+                        src={imageURL}
+                        alt="Analyzed Image"
+                        className="w-full h-full object-cover rounded-xl"
                     />
                 </div>
             </Card>
@@ -351,7 +352,7 @@ function UploadMediaWithPopup() {
     </div>
 )}
 
-                    
+
                 </div>
             </div>
 
