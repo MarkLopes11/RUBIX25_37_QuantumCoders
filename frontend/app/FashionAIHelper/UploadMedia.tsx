@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useEffect,useState, useRef } from "react";
 import { Upload, FileDown, ArrowRight, Camera } from "lucide-react";
 import { ClipLoader } from "react-spinners";
 import { CopilotKit } from "@copilotkit/react-core";
@@ -81,27 +81,27 @@ function UploadMediaWithPopup() {
           }
     };
 
-    const handleCameraOpen = async () => {
-        setIsCameraOpen(true);
-
-        try {
-            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                throw new Error("Camera not supported on this browser");
-            }
-             const stream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: { exact: currentFacingMode } },
-                audio:false,
-            });
-            if(videoRef.current){
-                 videoRef.current.srcObject=stream;
-            }
-
-        } catch (error: any) {
-            console.error("Error accessing camera:", error);
-             setError(error?.message || "Error accessing camera")
-             setIsCameraOpen(false)
-        }
-     }
+    useEffect(() => {
+        const openCamera = async () => {
+          try {
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                     throw new Error("Camera not supported on this browser");
+               }
+                const stream = await navigator.mediaDevices.getUserMedia({
+                   video: { facingMode: { exact: currentFacingMode } },
+                   audio:false,
+               });
+               if(videoRef.current){
+                    videoRef.current.srcObject=stream;
+               }
+   
+           } catch (error: any) {
+               console.error("Error accessing camera:", error);
+               setError(error?.message || "Error accessing camera")
+           }
+         }
+        openCamera()
+        },[currentFacingMode])
      const handleCameraSwitch = () => {
         setCurrentFacingMode(currentFacingMode === 'user' ? 'environment' : 'user');
    }
@@ -361,7 +361,7 @@ function UploadMediaWithPopup() {
                                 </label>
 
                                    <button
-                                        onClick={handleCameraOpen}
+                                        onClick={() => setIsCameraOpen(true)}
                                         className="bg-gray-700 hover:bg-gray-600 text-white text-lg font-semibold py-2 px-4 rounded-full mt-4 transition-all"
                                    >
                                         <Camera className="w-5 h-5 mr-2" />Open Camera
