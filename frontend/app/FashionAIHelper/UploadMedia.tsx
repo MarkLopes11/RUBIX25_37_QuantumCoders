@@ -331,6 +331,9 @@ function UploadMediaWithPopup() {
                                        <div className="mt-4 flex justify-center gap-4">
                                           <button onClick={handleTakePhoto} className="bg-pink-500 hover:bg-pink-600 text-white rounded-full px-6 py-2 transition-all">
                                              Take Photo
+                                            <button onClick={handleCameraSwitch} className="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-6 py-2 transition-all">
+                                             Switch Camera
+                                            </button>
                                           </button>
                                             <button onClick={()=> setIsCameraOpen(false)} className="bg-red-500 hover:bg-red-600 text-white rounded-full px-6 py-2 transition-all">
                                              Close Camera
