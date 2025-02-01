@@ -478,7 +478,7 @@ function UploadMediaWithPopup() {
 
                 if (cleanItem.startsWith("Outfit")) {
                     return (
-                        <h4 key={index} className="font-bold text-2xl text-white bg-gradient-to-r from-purple-600 to-indigo-600 p-3 rounded-xl shadow-md text-center">
+                        <h4 key={index} className="hover:shadow-xl transform transition-all hover:scale-95 font-bold text-2xl text-white bg-gradient-to-r from-purple-600 to-indigo-600 p-3 rounded-xl shadow-md text-center">
                             {cleanItem}
                         </h4>
                     );
