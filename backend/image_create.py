@@ -8,7 +8,7 @@ def create_image_from_user_style(input):
     api_key= os.getenv('TOGETHER_AI')
     client = Together()
     client.api_key = api_key
-    response = client.images.generate(
+    response = client(
         prompt=f"Create a realistic image for young adults from head to toe :{input}",
         model="black-forest-labs/FLUX.1-schnell",
         steps=3,
