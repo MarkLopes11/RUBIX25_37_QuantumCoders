@@ -278,6 +278,3 @@ def generate_report():
         return jsonify({"error": "Failed to generate report."}), 500
 
 
-
-if __name__ == '__main__':
-    app.run(debug=True)
