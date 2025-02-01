@@ -79,7 +79,7 @@ function UploadMediaWithPopup() {
           }
     };
 
-     const handleCameraOpen = async () => {
+    const handleCameraOpen = async () => {
         setIsCameraOpen(true);
 
         try {
@@ -87,7 +87,7 @@ function UploadMediaWithPopup() {
                 throw new Error("Camera not supported on this browser");
             }
              const stream = await navigator.mediaDevices.getUserMedia({
-                video: true,
+                video: { facingMode: { exact: "environment" } },
                 audio:false,
             });
             if(videoRef.current){
