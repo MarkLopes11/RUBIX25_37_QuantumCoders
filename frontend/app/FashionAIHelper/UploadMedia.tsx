@@ -33,6 +33,8 @@ function UploadMediaWithPopup() {
     const REDIRECT_URL = "https://fashion-rag.streamlit.app/";
      const videoRef = useRef<HTMLVideoElement>(null); // Ref for video element
     const [isCameraOpen, setIsCameraOpen] = useState(false)
+    const [currentFacingMode, setCurrentFacingMode] = useState<FacingMode>('environment')
+    type FacingMode = "user" | "environment";
 
     const clearError = () => {
         setError(null);
@@ -87,7 +89,7 @@ function UploadMediaWithPopup() {
                 throw new Error("Camera not supported on this browser");
             }
              const stream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: { exact: "environment" } },
+                video: { facingMode: { exact: currentFacingMode } },
                 audio:false,
             });
             if(videoRef.current){
@@ -100,6 +102,9 @@ function UploadMediaWithPopup() {
              setIsCameraOpen(false)
         }
      }
+     const handleCameraSwitch = () => {
+        setCurrentFacingMode(currentFacingMode === 'user' ? 'environment' : 'user');
+   }
      const handleTakePhoto = () => {
         if(!videoRef.current){
           setError("Camera not opened")
