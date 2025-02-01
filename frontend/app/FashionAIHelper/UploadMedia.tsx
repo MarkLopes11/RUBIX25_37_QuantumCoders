@@ -33,7 +33,7 @@ function UploadMediaWithPopup() {
     const REDIRECT_URL = "https://fashion-rag.streamlit.app/";
      const videoRef = useRef<HTMLVideoElement>(null); // Ref for video element
     const [isCameraOpen, setIsCameraOpen] = useState(false)
-    const [currentFacingMode, setCurrentFacingMode] = useState<FacingMode>('environment')
+    const [currentFacingMode, setCurrentFacingMode] = useState<FacingMode>('user')
     type FacingMode = "user" | "environment";
 
     const clearError = () => {
