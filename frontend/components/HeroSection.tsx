@@ -11,7 +11,7 @@ const HeroSection = () => {
     setIsMounted(true);
   }, []);
 
-  const handleGetStarted = (e) => {
+  const handleGetStarted = (e:React.MouseEvent) => {
     if (!isMounted) return;
     
     e.preventDefault();
