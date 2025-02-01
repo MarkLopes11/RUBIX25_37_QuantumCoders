@@ -25,11 +25,11 @@ function UploadMediaWithPopup() {
     const [imageUrls, setImageUrls] = useState<string[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [reportDownloaded, setReportDownloaded] = useState(false);
-    const API_URL = "http://127.0.0.1:5000/api/upload";
-    const ANALYZE_API_URL = "http://127.0.0.1:5000/api/analyze";
-    const OUTFITS_API_URL = "http://127.0.0.1:5000/api/outfits";
-    const IMAGE_API_URI = "http://127.0.0.1:5000/api/ai_image";
-    const REPORT_API_URL = "http://127.0.0.1:5000/api/generate_report";
+    const API_URL = "https://rubix25-37-quantumcoders.onrender.com/api/upload";
+    const ANALYZE_API_URL = "https://rubix25-37-quantumcoders.onrender.com/api/analyze";
+    const OUTFITS_API_URL = "https://rubix25-37-quantumcoders.onrender.com/api/outfits";
+    const IMAGE_API_URI = "https://rubix25-37-quantumcoders.onrender.com/api/ai_image";
+    const REPORT_API_URL = "https://rubix25-37-quantumcoders.onrender.com/api/generate_report";
     const REDIRECT_URL = "https://fashion-rag.streamlit.app/";
      const videoRef = useRef<HTMLVideoElement>(null); // Ref for video element
     const [isCameraOpen, setIsCameraOpen] = useState(false)
