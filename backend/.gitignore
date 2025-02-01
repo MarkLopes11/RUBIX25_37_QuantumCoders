@@ -3,3 +3,4 @@
 /uploads
 __pycache__/
 reports/
+env/
