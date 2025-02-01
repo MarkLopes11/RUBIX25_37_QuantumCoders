@@ -100,8 +100,10 @@ function UploadMediaWithPopup() {
                setError(error?.message || "Error accessing camera")
            }
          }
-        openCamera()
-        },[currentFacingMode])
+           if(isCameraOpen){
+              openCamera()
+           }
+        },[currentFacingMode, isCameraOpen])
      const handleCameraSwitch = () => {
         setCurrentFacingMode(currentFacingMode === 'user' ? 'environment' : 'user');
    }
